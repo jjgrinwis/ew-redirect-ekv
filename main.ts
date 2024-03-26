@@ -1,7 +1,6 @@
 /*
 Lookup redirect via EdgeKV
 */
-import { btoa } from "encoding";
 import { logger } from "log";
 import { EdgeKV } from "./edgekv.js";
 
