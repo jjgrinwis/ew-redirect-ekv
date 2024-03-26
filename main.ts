@@ -4,7 +4,7 @@ Make sure to download edgekv.js helper library from https://github.com/akamai/ed
 Place edgekv.js and generated edgekv_tokens.js in built directory. To create token:
 $ akamai edgekv create token redirect_token --save_path=./ --staging=allow --production=deny --ewids=all --namespace=jgrinwiskv+r
 
-For detatailed logging run 'npm run generate-token" and use response in your request header.
+For detailed logging run 'npm run generate-token" and use response in your request header.
 */
 import { logger } from "log";
 import { EdgeKV } from "./edgekv.js";
