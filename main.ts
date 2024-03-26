@@ -1,5 +1,8 @@
 /*
-Lookup redirect via EdgeKV
+Lookup redirect code and location via EdgeKV.
+Make sure to download edgekv.js helper library from https://github.com/akamai/edgeworkers-examples/blob/master/edgekv/lib/edgekv.js
+Place edgekv.js and generated edgekv_tokens.js in built directory. To create token:
+$ akamai edgekv create token redirect_token --save_path=./ --staging=allow --production=deny --ewids=all --namespace=jgrinwiskv+r
 */
 import { logger } from "log";
 import { EdgeKV } from "./edgekv.js";
@@ -30,7 +33,7 @@ export async function onOriginRequest(request: EW.IngressOriginRequest) {
 
     /* 
     For now only doing a lookup on path, we can ofcourse add our own complex logic.
-    request.path will be something like this /a/test/bla for example but EdgeKV can't deal with a-z, A-Z,0-9, - and _ character.
+    request.path will be something like this /a/test/bla for example but EdgeKV only deal with a-z, A-Z,0-9, - and _ character.
     so we let the delivery configuration create an md5 hash of a request path and feed that as a PMUSER var.
     */
     let key = request.getVariable('PMUSER_PATH_HASH')
@@ -54,7 +57,7 @@ export async function onOriginRequest(request: EW.IngressOriginRequest) {
         redirectInfo = await edgeKvRedirect.getJson({ item: key, timeout: edgeKvTimeout});
     }
     catch (error) {
-        logger.log(`lookup for ${key} wenrong: ${error}`)
+        logger.log(`lookup for ${key} went rong: ${error}`)
     }
 
     /*
